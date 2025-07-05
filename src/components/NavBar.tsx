@@ -28,6 +28,18 @@ function NavBar() {
         >
           Cook
         </NavLink>
+        <NavLink
+          to="/wallet"
+          className={({ isActive }) =>
+            `mx-2 px-4 py-2 rounded transition-colors ${
+              isActive
+                ? 'bg-coffee text-coffee-light'
+                : 'hover:underline hover:text-coffee-dark'
+            }`
+          }
+        >
+          Wallet
+        </NavLink>
       </div>
     </nav>
   );
