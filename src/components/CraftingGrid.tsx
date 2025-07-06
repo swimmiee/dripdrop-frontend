@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import type { Ingredient } from '../types';
+import { useState, useEffect } from "react";
+import type { Ingredient } from "../types";
 
 interface CraftingGridProps {
   onGridChange?: (grid: (Ingredient | null)[]) => void;
@@ -7,7 +7,11 @@ interface CraftingGridProps {
   grid?: (Ingredient | null)[];
 }
 
-function CraftingGrid({ onGridChange, selectedIngredient, grid: externalGrid }: CraftingGridProps) {
+function CraftingGrid({
+  onGridChange,
+  selectedIngredient,
+  grid: externalGrid,
+}: CraftingGridProps) {
   const [grid, setGrid] = useState<(Ingredient | null)[]>(
     externalGrid || Array(9).fill(null)
   );
@@ -20,7 +24,7 @@ function CraftingGrid({ onGridChange, selectedIngredient, grid: externalGrid }: 
 
   const handleCellClick = (index: number) => {
     const newGrid = [...grid];
-    
+
     if (newGrid[index] !== null) {
       // Clear the cell if it has an ingredient
       newGrid[index] = null;
@@ -28,9 +32,9 @@ function CraftingGrid({ onGridChange, selectedIngredient, grid: externalGrid }: 
       // Place the selected ingredient if cell is empty
       newGrid[index] = selectedIngredient;
     }
-    
+
     setGrid(newGrid);
-    
+
     if (onGridChange) {
       onGridChange(newGrid);
     }
@@ -38,14 +42,14 @@ function CraftingGrid({ onGridChange, selectedIngredient, grid: externalGrid }: 
 
   const handleDrop = (e: React.DragEvent, index: number) => {
     e.preventDefault();
-    const ingredientData = e.dataTransfer.getData('application/json');
-    
+    const ingredientData = e.dataTransfer.getData("application/json");
+
     if (ingredientData) {
       const ingredient = JSON.parse(ingredientData);
       const newGrid = [...grid];
       newGrid[index] = ingredient;
       setGrid(newGrid);
-      
+
       if (onGridChange) {
         onGridChange(newGrid);
       }
@@ -69,13 +73,17 @@ function CraftingGrid({ onGridChange, selectedIngredient, grid: externalGrid }: 
             onDragOver={handleDragOver}
           >
             {ingredient ? (
-              <div className="text-2xl">
-                {ingredient.icon}
-              </div>
+              ingredient.image ? (
+                <img
+                  src={ingredient.image}
+                  alt={ingredient.name}
+                  className="w-12 h-12 object-contain"
+                />
+              ) : (
+                <div className="text-2xl">{ingredient.icon}</div>
+              )
             ) : (
-              <div className="text-gray-400 text-xs">
-                +
-              </div>
+              <div className="text-gray-400 text-xs">+</div>
             )}
           </div>
         ))}
@@ -87,4 +95,4 @@ function CraftingGrid({ onGridChange, selectedIngredient, grid: externalGrid }: 
   );
 }
 
-export default CraftingGrid; 
+export default CraftingGrid;

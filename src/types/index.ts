@@ -1,8 +1,10 @@
 export interface Ingredient {
-  id: string;
+  id: number;
   name: string;
   icon: string;
   description?: string;
+  image?: string;
+  amount?: number; // 사용자가 보유한 수량
 }
 
 export interface Recipe {
@@ -16,4 +18,4 @@ export interface Recipe {
 export interface CraftingCell {
   ingredient: Ingredient | null;
   position: number;
-} 
+}
